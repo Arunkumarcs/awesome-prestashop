@@ -2,9 +2,7 @@
 title %~n0.%~x0
 cls
 
-set virtualenvname=.venv
-set sshpublickey=E:\ProgramFiles\Dropbox\_backup\credentials\rsa\alexpc_win\id_rsa.ppk
-set sshprivatekey=E:\ProgramFiles\Dropbox\_backup\credentials\rsa\alexpc_linux\id_rsa.ppk
+set VIRTUALENVNAME=.venv
 
 set errlvl=%ERRORLEVEL%
 if "%~1" neq "" (
@@ -22,21 +20,17 @@ echo == HELP ==
 echo Usage:   call SCRIPTNAME COMMAND
 echo Example: call script.cmd help
 echo.
-echo == REPO ==
-echo dd   - Deploy Script (WIP)
-echo db   - Backup Script (WIP)
-echo.
 echo == DEPLOYS ==
-echo mi   - Documentation MkDocs: Install pip packages (Required*)
-echo mb   - Documentation MkDocs: Build
-echo ms   - Documentation MkDocs: Serve
-echo md   - Documentation MkDocs: Deploy (gh-deploy)
+echo mi   - MkDocs Documentation: Install PIP Packages (Required*)
+echo mb   - MkDocs Documentation: Build
+echo ms   - MkDocs Documentation: Serve
+echo md   - MkDocs Documentation: Deploy (gh-deploy)
 exit /b
 
 :mi
 echo executing :mi
 echo arg1 = %1
-virtualenv %virtualenvname%
+virtualenv %VIRTUALENVNAME%
 call .venv\Scripts\activate.bat
 pip install -r requirements.txt
 deactivate
@@ -46,11 +40,13 @@ exit /b
 echo executing :mb
 echo arg1 = %1
 echo arg2 = %2
-cp README.md docs\README.md
-call .venv\Scripts\activate.bat
+cp README.md docs\index.md
+call %VIRTUALENVNAME%\Scripts\activate.bat
 mkdocs build
-rm docs\README.md
+rm docs\index.md
 deactivate
+::ln -sf README.md docs/index.md
+::mklink docs\index.md README.md
 exit /b
 
 :ms
@@ -58,7 +54,7 @@ echo executing :ms
 echo arg1 = %1
 echo arg2 = %2
 echo arg3 = %3
-call .venv\Scripts\activate.bat
+call %VIRTUALENVNAME%\Scripts\activate.bat
 mkdocs serve
 deactivate
 exit /b %errlvl%
@@ -68,9 +64,20 @@ echo executing :md
 echo arg1 = %1
 echo arg2 = %2
 echo arg3 = %3
-call .venv\Scripts\activate.bat
-start /w "GitBash" "%PROGRAMFILES%\Git\git-cmd.exe" --no-cd --command=usr/bin/bash.exe -l -i -c "git add .; git commit -m ""s""; git push;"
-start /b "GitBash" "%PROGRAMFILES%\Git\bin\sh.exe" --login -i -c "mkdocs gh-deploy; echo; echo PRESS ENTER !!!;"
+cp README.md docs\index.md
+call %VIRTUALENVNAME%\Scripts\activate.bat
+start /b "GitBash" "%PROGRAMFILES%\Git\bin\sh.exe" --login -i -c "mkdocs gh-deploy; echo; echo MkDocs Deployed !! PRESS ENTER TO EXIT; rm docs//index.md;"
 deactivate
+::start /w "GitBash" "%PROGRAMFILES%\Git\git-cmd.exe" --no-cd --command=usr/bin/bash.exe -l -i -c "git add .; git commit -m ""s""; git push;"
 ::git commit -m "Script Deploy - `echo ${DATE}`"
+exit /b %errlvl%
+
+:check
+echo executing :md
+echo arg1 = %1
+echo arg2 = %2
+echo arg3 = %3
+call %VIRTUALENVNAME%\Scripts\activate.bat
+mkdocs --version
+deactivate
 exit /b %errlvl%
