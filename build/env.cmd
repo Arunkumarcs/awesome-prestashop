@@ -46,8 +46,10 @@ exit /b
 echo executing :mb
 echo arg1 = %1
 echo arg2 = %2
+cp README.md docs\README.md
 call .venv\Scripts\activate.bat
 mkdocs build
+rm docs\README.md
 deactivate
 exit /b
 
