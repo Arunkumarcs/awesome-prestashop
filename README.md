@@ -2,6 +2,8 @@
 
 Welcome to my aweomse list of [PrestaShop](https://www.prestashop.com) resources.
 
+[![Build Status](https://travis-ci.org/alex1a/awesome-prestashop.svg?branch=master)](https://travis-ci.org/alex1a/awesome-prestashop)
+
 ## Contents
 
 - [Documentation](#documentation)
