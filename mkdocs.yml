@@ -1,0 +1,27 @@
+site_name: 'Awesome Prestashop'
+site_url: 'http://alexjorge.me/awesome-prestashop'
+site_description: 'A curated list of awesome Prestashop resources'
+site_author: 'Alexandre Ferreira'
+repo_name: 'alex1a/awesome-prestashop'
+repo_url: 'https://github.com/alex1a/awesome-prestashop'
+theme: 'material'
+extra:
+  feature:
+    tabs: false
+  palette:
+    primary: 'red'
+    accent: 'pink'
+  social:
+    - type: 'github'
+      link: 'https://github.com/alex1a'
+    - type: 'twitter'
+      link: 'https://twitter.com/alexandrejorgef'
+    - type: 'linkedin'
+      link: 'https://www.linkedin.com/in/alexjferreira'
+google_analytics:
+  - 'UA-510626-7'
+  - 'auto'
+extra_css:
+    - css/extra.css
+pages:
+  - "A curated list of awesome Prestashop resources.": "index.md"
